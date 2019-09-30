@@ -1,0 +1,31 @@
+{
+  "name": "ngx-deploy-docker",
+  "version": "0.0.0",
+  "description": "Publish your angular projects to a docker registry by just run `ng deploy your-app`",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kauppfbi/ngx-deploy-docker.git"
+  },
+  "keywords": [
+    "angular",
+    "cli",
+    "angular-cli",
+    "deploy",
+    "ng-deploy",
+    "ng deploy",
+    "docker",
+    "publish"
+  ],
+  "author": {
+    "name": "Fabian Kaupp",
+    "email": "kauppfbi@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kauppfbi/ngx-deploy-docker/issues"
+  },
+  "homepage": "https://github.com/kauppfbi/ngx-deploy-docker#readme"
+}
