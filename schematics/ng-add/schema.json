@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "NgxDeployDockerAddSchematic",
+  "title": "Add ngx-deploy-docker to Your Project",
+  "type": "object",
+  "properties": {
+    "registry": {
+      "type": "string",
+      "description": "The Registry url you want to push to",
+      "x-prompt": "To which registry do you want to push to?",
+      "default": "docker...",
+      "alias": "r"
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project",
+      "alias": "p"
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "description": "Skip installing after adding ngx-deploy-docker",
+      "default": false
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}
