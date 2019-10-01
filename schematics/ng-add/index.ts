@@ -82,7 +82,9 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
 
   project.architect['deploy'] = {
     builder: 'ngx-deploy-starter:deploy',
-    options: {}
+    options: {
+      registry: options.registry
+    }
   };
 
   tree.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
