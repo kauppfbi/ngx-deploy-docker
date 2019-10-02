@@ -8,7 +8,7 @@
     "test": "",
     "release": "standard-version",
     "build": "rimraf dist && tsc && copyfiles -a package.json README.md schematics/**/{collection.json,schema.json,files/**} src/**/{builders.json,schema.json} dist",
-    "build:watch": "",
+    "build:watch": "tsc --watch",
     "build:test": ""
   },
   "schematics": "./schematics/collection.json",
