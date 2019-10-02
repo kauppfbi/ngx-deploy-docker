@@ -8,7 +8,7 @@ async function buildDockerImage(options: Schema, logger: logging.LoggerApi) {
   // context.reportStatus(`Executing "docker build"...`);
   const child = child_process.spawn(
     'docker',
-    ['build', '-t', 'kauppfbi/test', '.'],
+    ['build', '-t', `${options.imageName}`, '.'],
     {
       stdio: 'pipe'
     }
@@ -30,13 +30,14 @@ async function buildDockerImage(options: Schema, logger: logging.LoggerApi) {
 }
 
 async function publishDockerImage(options: Schema, logger: logging.LoggerApi) {
-  const child = child_process.spawn(
-    'docker',
-    ['push', 'kauppfbi/test:latest'],
-    {
-      stdio: 'pipe'
-    }
-  );
+  const imageNameWithTag =
+    options.account !== ''
+      ? `${options.account}/${options.imageName}:${options.tag}`
+      : `${options.imageName}:${options.tag}`;
+
+  const child = child_process.spawn('docker', ['push', imageNameWithTag], {
+    stdio: 'pipe'
+  });
 
   child.stdout.on('data', data => {
     logger.info(data.toString());

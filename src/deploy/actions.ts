@@ -33,6 +33,10 @@ export default async function deploy(
       }`
     );
 
+    if (!options.imageName) {
+      options.imageName = context.target.project;
+    }
+
     const build = await context.scheduleTarget(
       {
         target: 'build',

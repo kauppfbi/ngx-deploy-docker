@@ -17,6 +17,21 @@
       "type": "boolean",
       "default": false,
       "description": "Skip build process during deployment."
+    },
+    "imageName": {
+      "type": "string",
+      "description": "The Name of the Docker Image you want to deploy. If not present, the project name will be taken."
+    },
+    "account": {
+      "type": "string",
+      "description": "The Account you want to publish the image too. Default is your docker username.",
+      "alias": "a"
+    },
+    "tag": {
+      "type": "string",
+      "description": "The Tag you want to publish the image with.",
+      "default": "latest",
+      "alias": "t"
     }
   }
 }
