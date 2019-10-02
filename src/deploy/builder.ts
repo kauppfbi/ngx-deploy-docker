@@ -3,10 +3,8 @@ import {
   BuilderOutput,
   createBuilder
 } from '@angular-devkit/architect';
-import { asWindowsPath, experimental, normalize } from '@angular-devkit/core';
+import { experimental, normalize } from '@angular-devkit/core';
 import { NodeJsSyncHost } from '@angular-devkit/core/node';
-import os from 'os';
-import * as path from 'path';
 
 import * as engine from '../engine/engine';
 import deploy from './actions';
