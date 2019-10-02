@@ -4,11 +4,10 @@
   "title": "Add ngx-deploy-docker to Your Project",
   "type": "object",
   "properties": {
-    "registry": {
+    "userName": {
       "type": "string",
-      "description": "The Registry url you want to push to",
-      "x-prompt": "To which registry do you want to push to?",
-      "default": "docker...",
+      "description": "Your Docker username",
+      "x-prompt": "What is your Docker username?",
       "alias": "r"
     },
     "project": {
