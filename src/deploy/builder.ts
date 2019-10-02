@@ -41,22 +41,8 @@ export default createBuilder<any>(
       throw new Error('Cannot find the project output directory');
     }
 
-    // normalizes pathes don't work with all native functions
-    // as a workaround, you can use the following 2 lines
-    const isWin = os.platform() === 'win32';
-    const workspaceRoot = !isWin
-      ? workspace.root
-      : asWindowsPath(workspace.root);
-    // if this is not necessary, use this:
-    // const workspaceRoot =  workspace.root;
-
     try {
-      await deploy(
-        engine,
-        context,
-        path.join(workspaceRoot, targets.build.options.outputPath),
-        options
-      );
+      await deploy(engine, context, options);
     } catch (e) {
       context.logger.error('Error when trying to deploy:', e);
       console.error(e);
