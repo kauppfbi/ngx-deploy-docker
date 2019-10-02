@@ -46,7 +46,7 @@
     "pretty-quick": "1.11.1",
     "rimraf": "3.0.0",
     "standard-version": "7.0.0",
-    "typescript": "3.5.3"
+    "typescript": "3.6.3"
   },
   "peerDependencies": {
     "@angular-devkit/core": ">=8.0.0",
