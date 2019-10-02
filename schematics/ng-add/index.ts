@@ -94,7 +94,7 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
   }
 
   project.architect['deploy'] = {
-    builder: 'ngx-deploy-starter:deploy',
+    builder: 'ngx-deploy-docker:deploy',
     options: {
       registry: options.registry
     }
