@@ -24,6 +24,7 @@
     },
     "account": {
       "type": "string",
+      "default": "",
       "description": "The Account you want to publish the image too. Default is your docker username.",
       "alias": "a"
     },
