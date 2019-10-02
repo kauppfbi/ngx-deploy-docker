@@ -5,14 +5,9 @@ import { Schema } from './schema';
 
 export default async function deploy(
   engine: {
-    run: (
-      dir: string,
-      options: Schema,
-      logger: logging.LoggerApi
-    ) => Promise<void>;
+    run: (options: Schema, logger: logging.LoggerApi) => Promise<void>;
   },
   context: BuilderContext,
-  projectRoot: string,
   options: Schema
 ) {
   if (options.noBuild) {
@@ -49,9 +44,5 @@ export default async function deploy(
     await build.result;
   }
 
-  await engine.run(
-    projectRoot,
-    options,
-    (context.logger as unknown) as logging.LoggerApi
-  );
+  await engine.run(options, (context.logger as unknown) as logging.LoggerApi);
 }
