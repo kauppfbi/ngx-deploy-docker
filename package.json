@@ -7,9 +7,9 @@
     "format:test": "prettier **/*.{ts,json,md} --list-different",
     "test": "",
     "release": "standard-version",
-    "schematics:build": "rimraf dist && tsc -p schematics/tsconfig.schematics.json && copyfiles package.json README.md schematics/**/{collection.json,schema.json,files/**} dist",
-    "schematics:build:watch": "",
-    "schematics:test": ""
+    "build": "rimraf dist && tsc && copyfiles package.json README.md schematics/**/{collection.json,schema.json,files/**} src/**/{builders.json,schema.json} dist",
+    "build:watch": "",
+    "build:test": ""
   },
   "schematics": "./schematics/collection.json",
   "repository": {
@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/kauppfbi/ngx-deploy-docker#readme",
   "devDependencies": {
+    "@angular-devkit/architect": "0.803.6",
     "@angular-devkit/core": "8.3.6",
     "@angular-devkit/schematics": "8.3.6",
     "@commitlint/cli": "8.2.0",
@@ -49,6 +50,7 @@
     "typescript": "3.5.3"
   },
   "peerDependencies": {
+    "@angular-devkit/architect": ">=0.800.0",
     "@angular-devkit/core": ">=8.0.0",
     "@angular-devkit/schematics": ">=8.0.0"
   },
