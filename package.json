@@ -12,6 +12,7 @@
     "build:test": ""
   },
   "schematics": "./schematics/collection.json",
+  "builders": "./src/builders.json",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kauppfbi/ngx-deploy-docker.git"
