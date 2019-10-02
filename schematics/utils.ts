@@ -8,6 +8,13 @@ export function getLibraryVersion() {
   ).version;
 }
 
+export function getVersionFromPackageJson(host: Tree): string {
+  const sourceText = host.read('package.json')!.toString('utf-8');
+  const json = JSON.parse(sourceText);
+
+  return json.version || '';
+}
+
 export function addPackageToPackageJson(
   host: Tree,
   pkg: string,

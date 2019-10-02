@@ -2,14 +2,27 @@ import {
   Rule,
   SchematicContext,
   Tree,
-  SchematicsException
+  SchematicsException,
+  url,
+  template,
+  apply,
+  mergeWith
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-import { addPackageToPackageJson, getLibraryVersion } from '../utils';
+import {
+  addPackageToPackageJson,
+  getLibraryVersion,
+  getVersionFromPackageJson
+} from '../utils';
 
 import { Schema as NgAddOptions } from './schema';
-import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
+import {
+  experimental,
+  JsonParseMode,
+  parseJson,
+  strings
+} from '@angular-devkit/core';
 
 function getWorkspace(
   host: Tree
@@ -90,6 +103,26 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
   tree.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
 }
 
+function prepareDockerFiles(
+  host: Tree,
+  context: SchematicContext,
+  options: NgAddOptions
+) {
+  const sourceTemplates = url('./files');
+
+  const version = getVersionFromPackageJson(host);
+
+  const sourceParametrizedTemplates = apply(sourceTemplates, [
+    template({
+      ...options,
+      ...strings,
+      version
+    })
+  ]);
+
+  return mergeWith(sourceParametrizedTemplates)(host, context);
+}
+
 export default function(options: NgAddOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const version = getLibraryVersion();
@@ -112,6 +145,7 @@ export default function(options: NgAddOptions): Rule {
     addDeployBuilderToProject(host, options);
     context.logger.log('info', `🚀  Deploy Builder added to your project`);
 
-    return host;
+    context.logger.log('info', 'Preparing some 🐳 files...');
+    return prepareDockerFiles(host, context, options);
   };
 }
