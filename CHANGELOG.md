@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.3 (2019-10-03)
+
+### ✏️ Documentation
+
+- improve readme & project documentation ([36e45be](https://github.com/kauppfbi/ngx-deploy-docker/commit/36e45be))
+
 ### 0.0.2 (2019-10-02)
 
 ### 🎸 Features

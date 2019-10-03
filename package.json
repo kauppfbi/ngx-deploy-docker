@@ -1,6 +1,6 @@
 {
   "name": "ngx-deploy-docker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Publish your angular projects to a docker registry by just run `ng deploy your-app`",
   "scripts": {
     "format:write": "prettier **/*.{ts,json,md} --write",
