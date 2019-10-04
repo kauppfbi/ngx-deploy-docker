@@ -4,15 +4,15 @@ import { Tree } from '@angular-devkit/schematics';
 
 export function getLibraryVersion() {
   return JSON.parse(
-    fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')
+    fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')
   ).version;
 }
 
 export function getVersionFromPackageJson(host: Tree): string {
   const sourceText = host.read('package.json')!.toString('utf-8');
-  const json = JSON.parse(sourceText);
+  const packageJson = JSON.parse(sourceText);
 
-  return json.version || '';
+  return packageJson.version || '';
 }
 
 export function addPackageToPackageJson(
