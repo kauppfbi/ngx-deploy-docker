@@ -10,9 +10,6 @@ node_modules
 *.classpath
 *.project
 *.settings/
-*.classpath
-*.project
-*.settings/
 
 .vim/bundle
 nvim/autoload
