@@ -4,11 +4,11 @@
   "title": "Add ngx-deploy-docker to Your Project",
   "type": "object",
   "properties": {
-    "userName": {
+    "account": {
       "type": "string",
-      "description": "Your Docker username",
-      "x-prompt": "What is your Docker username?",
-      "alias": "r"
+      "description": "Your Docker account",
+      "x-prompt": "What is your Docker account/username?",
+      "alias": "a"
     },
     "project": {
       "type": "string",
