@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.0.5 (2019-12-30)
+
+### 🐛 Bug Fixes
+
+- update ng-add schematic ([caa6b6c](https://github.com/kauppfbi/ngx-deploy-docker/commit/caa6b6c798235b053917fc87391925f32cf6d129))
+
+### ✏️ Documentation
+
+- update prerequisites ([5d9e116](https://github.com/kauppfbi/ngx-deploy-docker/commit/5d9e116648b7db781fcb590e9638f2874730141e))
+
 ### 0.0.4 (2019-10-04)
 
 ### 🐛 Bug Fixes
