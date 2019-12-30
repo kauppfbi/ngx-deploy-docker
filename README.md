@@ -33,8 +33,8 @@ A detailed changelog is available [here](https://github.com/kauppfbi/ngx-deploy-
 This quick start assumes that you are starting from scratch.
 If you already have an existing Angular project, skip step 1.
 
-1. Install the latest version of the Angular CLI (v8.3.0 or greater) globally
-   and create a new Angular project.
+1. Install the latest version of the **`Angular CLI` (v8.3.0 or greater) globally**
+   and create a new Angular project. Make sure you have a suitable version of `nodeJs` installed.
 
    ```sh
    npm install -g @angular/cli
