@@ -40,7 +40,7 @@
     "@angular-devkit/architect": "0.803.22",
     "@angular-devkit/core": "8.3.22",
     "@angular-devkit/schematics": "8.3.22",
-    "@commitlint/cli": "8.3.4",
+    "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "copyfiles": "2.2.0",
     "husky": "4.0.7",
