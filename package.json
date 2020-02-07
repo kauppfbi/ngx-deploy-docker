@@ -38,8 +38,8 @@
   "homepage": "https://github.com/kauppfbi/ngx-deploy-docker#readme",
   "devDependencies": {
     "@angular-devkit/architect": "0.803.22",
-    "@angular-devkit/core": "8.3.22",
-    "@angular-devkit/schematics": "8.3.22",
+    "@angular-devkit/core": "9.0.1",
+    "@angular-devkit/schematics": "9.0.1",
     "@commitlint/cli": "8.3.4",
     "@commitlint/config-conventional": "8.3.4",
     "copyfiles": "2.1.1",
