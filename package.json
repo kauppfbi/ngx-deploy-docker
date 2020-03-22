@@ -7,7 +7,7 @@
     "format:test": "prettier **/*.{ts,json,md} --list-different",
     "test": "",
     "release": "standard-version",
-    "build": "rimraf dist && tsc -p ./tsconfig.json && copyfiles -a package.json README.md schematics/**/{collection.json,schema.json,files/**} src/**/{builders.json,schema.json} dist",
+    "build": "rimraf dist && tsc && copyfiles -a package.json README.md schematics/**/{collection.json,schema.json,files/**} src/**/{builders.json,schema.json} dist",
     "build:watch": "tsc --watch",
     "build:test": ""
   },
