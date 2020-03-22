@@ -6,14 +6,14 @@ import {
   url,
   template,
   apply,
-  mergeWith
+  mergeWith,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import {
   addPackageToPackageJson,
   getLibraryVersion,
-  getVersionFromPackageJson
+  getVersionFromPackageJson,
 } from '../utils';
 
 import { Schema as NgAddOptions } from './schema';
@@ -21,14 +21,14 @@ import {
   experimental,
   JsonParseMode,
   parseJson,
-  strings
+  strings,
 } from '@angular-devkit/core';
 
 function getWorkspace(
   host: Tree
 ): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
   const possibleFiles = ['/angular.json', '/.angular.json', '/workspace.json'];
-  const path = possibleFiles.filter(path => host.exists(path))[0];
+  const path = possibleFiles.filter((path) => host.exists(path))[0];
 
   const configBuffer = host.read(path);
   if (configBuffer === null) {
@@ -52,7 +52,7 @@ function getWorkspace(
 
   return {
     path,
-    workspace
+    workspace,
   };
 }
 
@@ -96,8 +96,8 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
   project.architect['deploy'] = {
     builder: 'ngx-deploy-docker:deploy',
     options: {
-      account: options.account
-    }
+      account: options.account,
+    },
   };
 
   tree.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
@@ -116,14 +116,14 @@ function prepareDockerFiles(
     template({
       ...options,
       ...strings,
-      version
-    })
+      version,
+    }),
   ]);
 
   return mergeWith(sourceParametrizedTemplates)(host, context);
 }
 
-export default function(options: NgAddOptions): Rule {
+export default function (options: NgAddOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     const version = getLibraryVersion();
     addPackageToPackageJson(host, 'ngx-deploy-docker', `^${version}`);
