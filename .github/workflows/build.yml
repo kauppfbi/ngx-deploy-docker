@@ -21,6 +21,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - uses: bahmutov/npm-install@v1
-      - run: tsc -v
       - run: npm run format:test
+      - run: npm test
       - run: npm run build
