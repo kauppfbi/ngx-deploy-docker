@@ -19,20 +19,20 @@ async function buildDockerImage(
     'docker',
     ['build', '-t', imageNameWithTag, '.'],
     {
-      stdio: 'pipe'
+      stdio: 'pipe',
     }
   );
 
-  child.stdout.on('data', data => {
+  child.stdout.on('data', (data) => {
     logger.info(data.toString());
   });
-  child.stderr.on('data', data => {
+  child.stderr.on('data', (data) => {
     logger.error(data.toString());
   });
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // context.reportStatus(`Done.`);
-    child.on('close', code => {
+    child.on('close', (code) => {
       resolve();
     });
   });
@@ -43,19 +43,19 @@ async function publishDockerImage(
   logger: logging.LoggerApi
 ) {
   const child = child_process.spawn('docker', ['push', imageNameWithTag], {
-    stdio: 'pipe'
+    stdio: 'pipe',
   });
 
-  child.stdout.on('data', data => {
+  child.stdout.on('data', (data) => {
     logger.info(data.toString());
   });
-  child.stderr.on('data', data => {
+  child.stderr.on('data', (data) => {
     logger.error(data.toString());
   });
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     // context.reportStatus(`Done.`);
-    child.on('close', code => {
+    child.on('close', (code) => {
       resolve();
     });
   });

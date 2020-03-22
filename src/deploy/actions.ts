@@ -22,7 +22,7 @@ export default async function deploy(
       : 'production';
     const overrides = {
       // this is an example how to override the workspace set of options
-      ...(options.baseHref && { baseHref: options.baseHref })
+      ...(options.baseHref && { baseHref: options.baseHref }),
     };
 
     context.logger.info(
@@ -41,7 +41,7 @@ export default async function deploy(
       {
         target: 'build',
         project: context.target.project,
-        configuration
+        configuration,
       },
       overrides as json.JsonObject
     );
