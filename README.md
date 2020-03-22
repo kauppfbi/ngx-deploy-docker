@@ -2,6 +2,7 @@
 
 **This Project is still work in progress.**
 
+![CI Pipeline](https://github.com/kauppfbi/ngx-deploy-docker/workflows/CI%20Pipeline/badge.svg)
 [![NPM version][npm-image]][npm-url]
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?color=blue&style=flat-square)](http://opensource.org/licenses/MIT)
 
