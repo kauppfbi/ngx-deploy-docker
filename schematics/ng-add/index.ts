@@ -82,12 +82,7 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
     );
   }
 
-  if (
-    !project.architect ||
-    !project.architect.build ||
-    !project.architect.build.options ||
-    !project.architect.build.options.outputPath
-  ) {
+  if (!project?.architect?.build?.options?.outputPath) {
     throw new SchematicsException(
       `Cannot read the output path (architect.build.options.outputPath) of the Angular project "${options.project}" in angular.json`
     );
