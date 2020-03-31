@@ -30,12 +30,7 @@ export default createBuilder<any>(
 
     const targets = workspace.getProjectTargets(context.target.project);
 
-    if (
-      !targets ||
-      !targets.build ||
-      !targets.build.options ||
-      !targets.build.options.outputPath
-    ) {
+    if (!targets?.build?.options?.outputPath) {
       throw new Error('Cannot find the project output directory');
     }
 
