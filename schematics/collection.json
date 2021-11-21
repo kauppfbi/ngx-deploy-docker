@@ -3,8 +3,9 @@
   "schematics": {
     "ng-add": {
       "description": "Add Docker Registry Publish schematic (ngx-deploy-docker)",
-      "factory": "./ng-add/index",
-      "schema": "./ng-add/schema.json"
+      "factory": "./ng-add/index#ngAdd",
+      "schema": "./ng-add/schema.json",
+      "aliases": ["install"]
     }
   }
 }

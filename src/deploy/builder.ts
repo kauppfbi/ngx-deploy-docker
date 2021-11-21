@@ -12,33 +12,21 @@ import { Schema } from './schema';
 
 // Call the createBuilder() function to create a builder. This mirrors
 // createJobHandler() but add typings specific to Architect Builders.
-export default createBuilder<any>(
+export default createBuilder(
   async (options: Schema, context: BuilderContext): Promise<BuilderOutput> => {
-    // The project root is added to a BuilderContext.
-    const root = normalize(context.workspaceRoot);
-    const workspace = new experimental.workspace.Workspace(
-      root,
-      new NodeJsSyncHost()
-    );
-    await workspace
-      .loadWorkspaceFromHost(normalize('angular.json'))
-      .toPromise();
-
     if (!context.target) {
       throw new Error('Cannot deploy the application without a target');
     }
 
-    const targets = workspace.getProjectTargets(context.target.project);
-
-    if (!targets?.build?.options?.outputPath) {
-      throw new Error('Cannot find the project output directory');
-    }
+    const buildTarget = {
+      name: options.buildTarget || `${context.target.project}:build:production`,
+    };
 
     try {
-      await deploy(engine, context, options);
+      await deploy(engine, context, buildTarget, options);
     } catch (e) {
-      context.logger.error('Error when trying to deploy:', e);
-      console.error(e);
+      context.logger.error('❌ An error occurred when trying to deploy:');
+      context.logger.error(e.message);
       return { success: false };
     }
 

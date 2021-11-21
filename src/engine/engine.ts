@@ -13,7 +13,7 @@ function getImageNameWithTag(options: Schema): string {
 async function buildDockerImage(
   imageNameWithTag: string,
   logger: logging.LoggerApi
-) {
+): Promise<void> {
   // context.reportStatus(`Executing "docker build"...`);
   const child = child_process.spawn(
     'docker',
@@ -41,7 +41,7 @@ async function buildDockerImage(
 async function publishDockerImage(
   imageNameWithTag: string,
   logger: logging.LoggerApi
-) {
+): Promise<void> {
   const child = child_process.spawn('docker', ['push', imageNameWithTag], {
     stdio: 'pipe',
   });
