@@ -15,7 +15,7 @@
 3. [🚀 Continuous Delivery](#continuous-delivery)
 4. [📦 Options](#options)
    - [--base-href](#base-href)
-   - [--configuration](#configuration)
+   - [--build-target](#build-target)
    - [--no-build](#no-build)
    - [--image-name](#image-name)
    - [--account](#account)
@@ -34,7 +34,7 @@ A detailed changelog is available [here](https://github.com/kauppfbi/ngx-deploy-
 This quick start assumes that you are starting from scratch.
 If you already have an existing Angular project, skip step 1.
 
-1. Install the latest version of the **`Angular CLI` (v8.3.0 or greater) globally**
+1. Install the latest version of the **`Angular CLI` (v13.0.0 or greater) globally**
    and create a new Angular project. Make sure you have a suitable version of `nodeJs` installed.
 
    ```sh
@@ -85,18 +85,16 @@ If you already have an existing Angular project, skip step 1.
 Specifies the base URL for the application being built.
 Same as `ng build --base-href=/XXX/`
 
-#### --configuration <a name="configuration"></a>
+#### --build-target <a name="build-target"></a>
 
 - **optional**
-- Alias: `-c`
-- Default: `production` (string)
 - Example:
   - `ng deploy` – Angular project is build in production mode
-  - `ng deploy --configuration=test` – Angular project is using the configuration `test` (this configuration must exist in the `angular.json` file)
+  - `ng deploy --build-target=<app>:build:test` – Angular project is using the configuration `test` (this configuration must exist in the `angular.json` file)
 
 A named build target, as specified in the `configurations` section of `angular.json`.
 Each named target is accompanied by a configuration of option defaults for that target.
-Same as `ng build --configuration=XXX`.
+Same as `ng run <app>`.
 This command has no effect if the option `--no-build` option is active.
 
 #### --no-build <a name="no-build"></a>
@@ -109,7 +107,7 @@ This command has no effect if the option `--no-build` option is active.
 
 Skip build process during deployment.
 This can be used when you are sure that you haven't changed anything and want to deploy with the latest artifact.
-This command causes the `--configuration` setting to have no effect.
+This command causes the `--build-target` setting to have no effect.
 
 #### --image-name <a name="image-name"></a>
 
@@ -125,9 +123,9 @@ This command causes the `--configuration` setting to have no effect.
 - Default: `` (string)
 - Example:
   - `ng deploy` – Docker Image name is **not** prefixed.
-  - `ng deploy --account=test` – Docker image name is prefixed with the provided account, like `aacount/image-name`.
+  - `ng deploy --account=test` – Docker image name is prefixed with the provided account, like `account/image-name`.
 
-> This option may be neccessary, depending on your write-rights within the repository, you want to push to.
+> This option may be necessary, depending on your write-rights within the repository, you want to push to.
 
 #### --tag <a name="tag"></a>
 
@@ -143,18 +141,18 @@ This command causes the `--configuration` setting to have no effect.
 To avoid all these command-line cmd options, you can write down your configuration in the `angular.json` file in the `options` attribute of your deploy project's architect. Just change the kebab-case to lower camel case. This is the notation of all options in lower camel case:
 
 - baseHref
-- configuration
+- buildTarget
 - noBuild
 - imageName
 - account
 - tag
 
-A list of all avaiable options is also available [here](https://github.com/kauppfbi/ngx-deploy-docker/blob/master/src/deploy/schema.json).
+A list of all available options is also available [here](https://github.com/kauppfbi/ngx-deploy-docker/blob/master/src/deploy/schema.json).
 
 Example:
 
 ```sh
-ng deploy --configuration=dev --tag=next
+ng deploy --build-target=<app>:build:production --tag=next
 ```
 
 becomes
@@ -163,7 +161,7 @@ becomes
 "deploy": {
   "builder": "ngx-deploy-docker:deploy",
   "options": {
-    "configuration": "dev",
+    "buildTarget": "<app>:build:production",
     "tag": "next"
   }
 }
@@ -183,7 +181,7 @@ And just run `ng deploy` 😄.
 - Add more options to the deploy builder, what do you need?
 - Integration in NxWorkspace
 - 💅 Kubernetes deployment right from the CLI
-- preparing examples of `how to use the package in CI environment with different Providers for private registires`
+- preparing examples of `how to use the package in CI environment with different Providers for private registries`
 - your feature that's not on the list yet?
 
 We look forward to any help. PRs are welcome! 😃
