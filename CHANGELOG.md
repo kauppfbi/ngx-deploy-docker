@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/kauppfbi/ngx-deploy-docker/compare/v0.0.5...v0.1.0) (2021-11-22)
+
+### ⚠ BREAKING CHANGES
+
+- Drop Support for Angular versions <13
+- Drop Support for nodejs v10 and v12
+- option `build-target` replaces `configuration`
+
+### ✏️ Documentation
+
+- add ci pipeline badge ([ae9bb2f](https://github.com/kauppfbi/ngx-deploy-docker/commit/ae9bb2faf13271bcf8f0874087ead778ab62e7f9))
+
+### 🎸 Features
+
+- support angular v13 ([#104](https://github.com/kauppfbi/ngx-deploy-docker/issues/104)) ([abf319a](https://github.com/kauppfbi/ngx-deploy-docker/commit/abf319aec82bdf1646f16192e24d3d90e23a4d1c))
+
 ### 0.0.5 (2019-12-30)
 
 ### 🐛 Bug Fixes
