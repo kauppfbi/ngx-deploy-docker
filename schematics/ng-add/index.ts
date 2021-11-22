@@ -4,64 +4,36 @@ import {
   Tree,
   SchematicsException,
   url,
-  template,
+  chain,
   apply,
   mergeWith,
+  template,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import {
   addPackageToPackageJson,
+  createHost,
   getLibraryVersion,
   getVersionFromPackageJson,
 } from '../utils';
 
 import { Schema as NgAddOptions } from './schema';
+import { workspaces } from '@angular-devkit/core';
 import {
-  experimental,
-  JsonParseMode,
-  parseJson,
-  strings,
-} from '@angular-devkit/core';
+  WorkspaceDefinition,
+  WorkspaceHost,
+} from '@angular-devkit/core/src/workspace';
 
-function getWorkspace(
-  host: Tree
-): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
-  const possibleFiles = ['/angular.json', '/.angular.json', '/workspace.json'];
-  const path = possibleFiles.filter((path) => host.exists(path))[0];
-
-  const configBuffer = host.read(path);
-  if (configBuffer === null) {
-    throw new SchematicsException(
-      `Could not find angular.json or workspace.json`
-    );
-  }
-  const content = configBuffer.toString();
-
-  let workspace: experimental.workspace.WorkspaceSchema;
-  try {
-    workspace = (parseJson(
-      content,
-      JsonParseMode.Loose
-    ) as {}) as experimental.workspace.WorkspaceSchema;
-  } catch (e) {
-    throw new SchematicsException(
-      `Could not parse angular.json or workspace.json: ` + e.message
-    );
-  }
-
-  return {
-    path,
-    workspace,
-  };
-}
-
-function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
-  const { path: workspacePath, workspace } = getWorkspace(tree);
-
+function addDeployBuilderToProject(
+  tree: Tree,
+  host: WorkspaceHost,
+  workspace: WorkspaceDefinition,
+  options: NgAddOptions
+) {
   if (!options.project) {
-    if (workspace.defaultProject) {
-      options.project = workspace.defaultProject;
+    if (workspace.extensions.defaultProject) {
+      options.project = workspace.extensions.defaultProject as string;
     } else {
       throw new SchematicsException(
         'No Angular project selected and no default project in the workspace'
@@ -69,78 +41,85 @@ function addDeployBuilderToProject(tree: Tree, options: NgAddOptions) {
     }
   }
 
-  const project = workspace.projects[options.project];
+  const project = workspace.projects.get(options.project);
   if (!project) {
     throw new SchematicsException(
       'The specified Angular project is not defined in this workspace'
     );
   }
 
-  if (project.projectType !== 'application') {
+  if (project.extensions.projectType !== 'application') {
     throw new SchematicsException(
       `Deploy requires an Angular project type of "application" in angular.json`
     );
   }
 
-  if (!project?.architect?.build?.options?.outputPath) {
+  if (!project.targets.get('build')?.options?.outputPath) {
     throw new SchematicsException(
       `Cannot read the output path (architect.build.options.outputPath) of the Angular project "${options.project}" in angular.json`
     );
   }
 
-  project.architect['deploy'] = {
+  project.targets.add({
+    name: 'deploy',
     builder: 'ngx-deploy-docker:deploy',
     options: {
       account: options.account,
     },
-  };
+  });
 
-  tree.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
+  workspaces.writeWorkspace(workspace, host);
+  return tree;
 }
 
 function prepareDockerFiles(
-  host: Tree,
-  context: SchematicContext,
+  tree: Tree,
+  workspace: WorkspaceDefinition,
   options: NgAddOptions
-) {
+): Rule {
   const sourceTemplates = url('./files');
 
-  const version = getVersionFromPackageJson(host);
-
+  const outputPath =
+    workspace.projects.get(options.project)?.targets.get('build')?.options
+      ?.outputPath || '';
+  const version = getVersionFromPackageJson(tree);
   const sourceParametrizedTemplates = apply(sourceTemplates, [
     template({
-      ...options,
-      ...strings,
+      outputPath,
       version,
     }),
   ]);
 
-  return mergeWith(sourceParametrizedTemplates)(host, context);
+  return mergeWith(sourceParametrizedTemplates);
 }
 
-export default function (options: NgAddOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    const version = getLibraryVersion();
-    addPackageToPackageJson(host, 'ngx-deploy-docker', `^${version}`);
+export const ngAdd = (options: NgAddOptions) => async (
+  tree: Tree,
+  context: SchematicContext
+) => {
+  const host = createHost(tree);
+  const { workspace } = await workspaces.readWorkspace('/', host);
+
+  const version = getLibraryVersion();
+  addPackageToPackageJson(tree, 'ngx-deploy-docker', `^${version}`);
+  context.logger.log(
+    'info',
+    `🐳  Added "ngx-deploy-docker@^${version}" into devDependencies`
+  );
+
+  if (options.skipInstall) {
     context.logger.log(
-      'info',
-      `🐳  Added "ngx-deploy-docker@^${version}" into devDependencies`
+      'warn',
+      `❗️  The "--skip-install" flag was present, don't forget to install package manually`
     );
+  } else {
+    context.logger.log('info', `📦  Installing added packages...`);
+    context.addTask(new NodePackageInstallTask());
+  }
 
-    if (options.skipInstall) {
-      context.logger.log(
-        'warn',
-        `❗️  The "--skip-install" flag was present, don't forget to install package manually`
-      );
-    } else {
-      context.logger.log('info', `📦  Installing added packages...`);
-      context.addTask(new NodePackageInstallTask());
-    }
+  addDeployBuilderToProject(tree, host, workspace, options);
+  context.logger.log('info', `🚀  Deploy Builder added to your project`);
 
-    addDeployBuilderToProject(host, options);
-    context.logger.log('info', `🚀  Deploy Builder added to your project`);
-
-    context.logger.log('info', 'Preparing some 🐳 files...');
-    return prepareDockerFiles(host, context, options);
-  };
-}
+  context.logger.log('info', 'Preparing some 🐳 files...');
+  return chain([prepareDockerFiles(tree, workspace, options)]);
+};

@@ -9,7 +9,7 @@ export interface Schema {
   /**
    * A named build target, as specified in the `configurations` section of angular.json. Each named target is accompanied by a configuration of option defaults for that target. Same as `ng build --configuration=XXX`.
    */
-  configuration?: string;
+  buildTarget?: string;
   /**
    * Skip build process during deployment.
    */

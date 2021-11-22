@@ -1,6 +1,29 @@
 import fs from 'fs';
 import path from 'path';
-import { Tree } from '@angular-devkit/schematics';
+
+import { virtualFs, workspaces } from '@angular-devkit/core';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
+
+export function createHost(tree: Tree): workspaces.WorkspaceHost {
+  return {
+    async readFile(path: string): Promise<string> {
+      const data = tree.read(path);
+      if (!data) {
+        throw new SchematicsException('File not found.');
+      }
+      return virtualFs.fileBufferToString(data);
+    },
+    async writeFile(path: string, data: string): Promise<void> {
+      return tree.overwrite(path, data);
+    },
+    async isDirectory(path: string): Promise<boolean> {
+      return !tree.exists(path) && tree.getDir(path).subfiles.length > 0;
+    },
+    async isFile(path: string): Promise<boolean> {
+      return tree.exists(path);
+    },
+  };
+}
 
 export function getLibraryVersion() {
   return JSON.parse(
@@ -16,12 +39,12 @@ export function getVersionFromPackageJson(host: Tree): string {
 }
 
 export function addPackageToPackageJson(
-  host: Tree,
+  tree: Tree,
   pkg: string,
   version: string
 ): Tree {
-  if (host.exists('package.json')) {
-    const sourceText = host.read('package.json')!.toString('utf-8');
+  if (tree.exists('package.json')) {
+    const sourceText = tree.read('package.json')!.toString('utf-8');
     const json = JSON.parse(sourceText);
 
     if (!json.devDependencies) {
@@ -33,10 +56,10 @@ export function addPackageToPackageJson(
       json.devDependencies = sortObjectByKeys(json.devDependencies);
     }
 
-    host.overwrite('package.json', JSON.stringify(json, null, 2));
+    tree.overwrite('package.json', JSON.stringify(json, null, 2));
   }
 
-  return host;
+  return tree;
 }
 
 function sortObjectByKeys(obj: any) {
