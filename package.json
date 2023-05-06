@@ -40,7 +40,7 @@
     "@angular-devkit/architect": "0.1300.3",
     "@angular-devkit/core": "13.0.3",
     "@angular-devkit/schematics": "13.0.3",
-    "@commitlint/cli": "8.3.5",
+    "@commitlint/cli": "8.3.6",
     "@commitlint/config-conventional": "8.3.4",
     "@types/node": "16.11.9",
     "@typescript-eslint/eslint-plugin": "2.26.0",
